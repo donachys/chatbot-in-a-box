@@ -1,0 +1,13 @@
+hubot:
+    build: .
+    # command: command to run the bot
+    # ports: 
+    #    - "<fromportnum?>:<to-portnum?>"
+    # volumes:
+    #    - ./scripts:/scripts # copy scripts folder into container?
+    links:
+        - redis
+redis:
+    build: ./redis/
+    ports:
+        - "6379:6379"
