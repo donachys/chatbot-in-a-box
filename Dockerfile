@@ -24,37 +24,15 @@ ENV DOCKER_USER_PASSWORD=docker
 ENV ROOT_USER_PASSWORD=root 
 
 ############################################################################### #                                Instructions                                 # ############################################################################### 
+
 # Install dependencies 
 # wget is required to download python and npm tar files 
 # build-essential is required for npm 
 # Others are required for building python 2.7.11 
 RUN yum update -y && yum install -y wget build-essential make
-RUN yum install -y gcc gcc-c++
-# RUN yum install -y libreadline-gplv2-dev libncursesw5-dev
-# RUN yum install -y libssl-dev libsqlite3-dev tk-dev 
-# RUN yum install -y libgdbm-dev libc6-dev libbz2-dev 
+RUN yum install -y gcc gcc-c++; yum clean all;
 
 # Set the current work directory to /tmp directory 
-WORKDIR ${TMP_DIR} 
-
-# Download python 2.7.11 tar. 
-# It will be downloaded to temp directory which is current work directory 
-# RUN wget https://www.python.org/ftp/python/2.7.11/Python-2.7.11.tgz
-
-# Extract downloaded python tar file in previous step.
-# It will be extracted to Python-2.7.11 directory which is inside /tmp directory
-# RUN tar -xf Python-2.7.11.tgz
-
-# To build python, change the current working directory to directory where 
-# python source code is extracted. 
-# WORKDIR ${TMP_DIR}/Python-2.7.11/
-
-# Build python 2.7.5 source code and install it 
-# RUN ./configure 
-# RUN make 
-# RUN make install 
-
-# Change the current work directory back to /tmp directory 
 WORKDIR ${TMP_DIR} 
 
 # Download nodejs 5.6.0 tar. 
@@ -88,17 +66,16 @@ RUN echo "root:${ROOT_USER_PASSWORD}" | chpasswd
 # https://github.com/yeoman/yeoman.io/issues/282 
 RUN useradd -s /bin/bash ${DOCKER_USER}
 
-# Add user defined by DOCKER_USER environment variable to the sudoers list 
-# RUN useradd ${DOCKER_USER} sudo
-
 # Set the work directory to home dir of the root
 WORKDIR /home/${DOCKER_USER}
 
 # Set the user id 
 USER ${DOCKER_USER} 
-# Start bash 
-#CMD ["/bin/bash"] 
 RUN yo hubot --owner="<Bot Wrangler <bw@example.com>" --name="Hubot" \
     --description="Delightfully aware robutt" --adapter=slack --defaults
+
+#Start bot
+CMD HUBOT_SLACK_TOKEN=<yourslackbotkey> ./bin/hubot --adapter slack
+
 
 ############################################################################### #                                    End                                      # ###############################################################################
