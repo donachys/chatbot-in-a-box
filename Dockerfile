@@ -74,8 +74,10 @@ USER ${DOCKER_USER}
 RUN yo hubot --owner="<Bot Wrangler <bw@example.com>" --name="Hubot" \
     --description="Delightfully aware robutt" --adapter=slack --defaults
 
-#Start bot
-CMD HUBOT_SLACK_TOKEN=<yourslackbotkey> ./bin/hubot --adapter slack
+# Install the Slack adapter for Hubot
+RUN npm install hubot-slack --save
 
+# Start bot
+CMD HUBOT_SLACK_TOKEN=<yourslackbotkey> ./bin/hubot --adapter slack
 
 ############################################################################### #                                    End                                      # ###############################################################################
