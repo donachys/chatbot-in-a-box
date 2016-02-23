@@ -36,7 +36,7 @@ WORKDIR ${TMP_DIR}
 
 # Download nodejs 5.6.0 tar.
 # It will be downloaded to temp directory which is current work directory 
-RUN wget https://nodejs.org/dist/latest-v5.x/node-v5.6.0-linux-x64.tar.gz
+RUN wget https://nodejs.org/dist/v5.7.0/node-v5.7.0-linux-x64.tar.gz
 
 # Extract downloaded nodejs tar file in previous step. 
 # Install to /usr/local
