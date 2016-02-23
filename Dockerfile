@@ -68,7 +68,8 @@ RUN yo hubot --owner="<Bot Wrangler <bw@example.com>" --name="Hubot" \
 RUN npm install hubot-slack --save
 
 # clean out the default scripts
-RUN rm -r ./scripts/
+RUN rm -r ./scripts/ && \
+echo [ \"hubot-help\", \"hubot-redis-brain\" ] > external-scripts.json
 
 # Start bot
 CMD ./bin/hubot --adapter slack
