@@ -1,13 +1,12 @@
 hubot:
     build: .
-    # command: command to run the bot
-    # ports: 
-    #    - "<fromportnum?>:<to-portnum?>"
-    # volumes:
-    #    - ./scripts:/scripts # copy scripts folder into container?
+    volumes:
+       - ./scripts:/home/docker/scripts # copy scripts folder into container
+    environment:
+        - HUBOT_SLACK_TOKEN=<your team's token>
     links:
         - redis
 redis:
-    build: ./redis/
+    image: redis
     ports:
         - "6379:6379"

@@ -26,31 +26,21 @@ ENV ROOT_USER_PASSWORD=root
 ############################################################################### #                                Instructions                                 # ############################################################################### 
 
 # Install dependencies 
-# wget is required to download python and npm tar files 
+# wget is required to download npm tar files 
 # build-essential is required for npm 
-# Others are required for building python 2.7.11 
-RUN yum update -y && yum install -y wget build-essential make
-RUN yum install -y gcc gcc-c++; yum clean all;
+RUN yum update -y && yum install -y wget
+RUN yum clean all;
 
 # Set the current work directory to /tmp directory 
 WORKDIR ${TMP_DIR} 
 
-# Download nodejs 5.6.0 tar. 
+# Download nodejs 5.6.0 tar.
 # It will be downloaded to temp directory which is current work directory 
-RUN wget https://github.com/nodejs/node/archive/v5.6.0.tar.gz
+RUN wget https://nodejs.org/dist/latest-v5.x/node-v5.6.0-linux-x64.tar.gz
 
 # Extract downloaded nodejs tar file in previous step. 
-# It will be extracted to node-5.6.0 directory which is inside /tmp directory 
-RUN tar -xf v5.6.0.tar.gz
-
-# To build nodejs, change the current working directory to directory where 
-# nodejs source code is extracted. 
-WORKDIR ${TMP_DIR}/node-5.6.0/ 
-
-# Build nodejs 5.6.0 source code and install it 
-RUN ./configure 
-RUN make 
-RUN make install 
+# Install to /usr/local
+RUN tar --strip-components 1 -xzvf node-v* -C /usr/local
 
 # Install following components using npm 
 # - Yeoman 
@@ -66,7 +56,7 @@ RUN echo "root:${ROOT_USER_PASSWORD}" | chpasswd
 # https://github.com/yeoman/yeoman.io/issues/282 
 RUN useradd -s /bin/bash ${DOCKER_USER}
 
-# Set the work directory to home dir of the root
+# Set the work directory to home dir of the docker_user
 WORKDIR /home/${DOCKER_USER}
 
 # Set the user id 
@@ -77,7 +67,10 @@ RUN yo hubot --owner="<Bot Wrangler <bw@example.com>" --name="Hubot" \
 # Install the Slack adapter for Hubot
 RUN npm install hubot-slack --save
 
+# clean out the default scripts
+RUN rm -r ./scripts/
+
 # Start bot
-CMD HUBOT_SLACK_TOKEN=<yourslackbotkey> ./bin/hubot --adapter slack
+CMD ./bin/hubot --adapter slack
 
 ############################################################################### #                                    End                                      # ###############################################################################
