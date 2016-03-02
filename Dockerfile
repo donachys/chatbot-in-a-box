@@ -77,7 +77,7 @@ RUN npm install hubot-slack --save
 
 # clean out the default scripts
 RUN rm -r ./scripts/ && \
-echo "[ \"hubot-help\", \"hubot-redis-brain\" ]" > external-scripts.json
+echo "[ \"hubot-help\", \"hubot-redis-brain\", \"hubot-google\" ]" > external-scripts.json
 
 # Start bot
 CMD ./bin/hubot --adapter slack
