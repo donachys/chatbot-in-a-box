@@ -36,7 +36,7 @@ ENV ROOT_USER_PASSWORD=root
 # Install dependencies
 # wget is required to download npm tar files
 # build-essential is required for npm
-RUN yum update -y && yum install -y wget
+RUN yum update -y && yum install -y wget git
 RUN yum clean all;
 
 # Set the current work directory to /tmp directory
