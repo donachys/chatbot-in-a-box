@@ -75,6 +75,9 @@ RUN yo hubot --owner="<Bot Wrangler <bw@example.com>" --name="Hubot" \
 # Install the Slack adapter for Hubot
 RUN npm install hubot-slack --save
 
+# Install the hubot-google script
+RUN npm install --save hubot-google
+
 # clean out the default scripts
 RUN rm -r ./scripts/ && \
 echo "[ \"hubot-help\", \"hubot-redis-brain\", \"hubot-google\" ]" > external-scripts.json
